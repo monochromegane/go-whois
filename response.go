@@ -1,5 +1,7 @@
 package whois
 
+import "strings"
+
 type Response interface {
 	Raw() string
 	Exist() bool
@@ -18,7 +20,7 @@ type verisign struct {
 }
 
 func (v verisign) Exist() bool {
-	return true
+	return !strings.Contains(v.res, "No match for ")
 }
 
 type jprs struct {
@@ -26,7 +28,7 @@ type jprs struct {
 }
 
 func (j jprs) Exist() bool {
-	return true
+	return !strings.Contains(j.res, "No match!!")
 }
 
 type gmo struct {
@@ -34,10 +36,10 @@ type gmo struct {
 }
 
 func (g gmo) Exist() bool {
-	return true
+	return !strings.Contains(g.res, "DOMAIN NOT FOUND")
 }
 
-func NewResponse(tld, response string) Response {
+func newResponse(tld, response string) Response {
 	b := base{response}
 	switch tld {
 	case "com", "net":
