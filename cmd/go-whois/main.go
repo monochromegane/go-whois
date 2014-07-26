@@ -8,6 +8,9 @@ import (
 )
 
 func main() {
-	fmt.Printf("Hello, world\n")
-	whois.Query(os.Args[1])
+	res, err := whois.Query(os.Args[1])
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(res.Raw())
 }
